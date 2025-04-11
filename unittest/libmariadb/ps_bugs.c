@@ -2624,6 +2624,7 @@ static int test_bug5194(MYSQL *mysql)
   const int CHARS_PER_PARAM= 5; /* space needed to place ", ?" in the query */
   const int uint16_max= 65535;
   int nrows, i;
+  my_bool allocation_failed;
 
   SKIP_MAXSCALE;
 
@@ -2681,7 +2682,17 @@ static int test_bug5194(MYSQL *mysql)
                         MAX_PARAM_COUNT * CHARS_PER_PARAM + 1);
   param_str= (char*) malloc(COLUMN_COUNT * CHARS_PER_PARAM);
 
-  FAIL_IF(my_bind == 0 || query == 0 || param_str == 0, "Not enough memory");
+  if(allocation_failed = !my_bind || !query || !param_str)
+  {
+    if(my_bind)
+      free(my_bind);
+    if(query)
+      free(query);
+    if(my_bind)
+      free(param_str);
+  }
+
+  FAIL_IF(allocation_failed, "Not enough memory");
 
   stmt= mysql_stmt_init(mysql);
 
