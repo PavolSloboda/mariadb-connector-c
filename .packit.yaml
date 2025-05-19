@@ -1,7 +1,14 @@
-specfile_path: mariadb-connector-c.spec
-usptream_package_name: mariadb-connector-c
+#specfile_path: mariadb-connector-c.spec
+upstream_package_name: mariadb-connector-c
 downstream_package_name: mariadb-connector-c
-dist_git_url: https://src.fedoraproject.org/rpms/mariadb-connector-c.git
+actions:
+  post-upstream-clone:
+    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/mariadb-connector-c.spec -O mariadb-connector-c.spec"
+    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/upstream-b10b76e5a2b983d86bd487873608abce8e0d507b.patch -O upstream-b10b76e5a2b983d86bd487873608abce8e0d507b.patch"
+    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/testsuite.patch -O testsuite.patch"
+    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/client.cnf -O client.cnf"
+    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/my.cnf.in -O my.cnf.in"
+
 jobs:
   - job: copr_build
     trigger: commit
@@ -9,7 +16,3 @@ jobs:
     owner: psloboda
     project: mariadb-connector-c
     targets: fedora-rawhide-x86_64
-    targest: [fedora-stable]
-
-post-upstream-clone:
-  - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/mariadb-connector-c.spec -O mariadb-connector-c.spec"
