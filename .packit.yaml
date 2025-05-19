@@ -1,8 +1,15 @@
-specfile_path:mariadb-connector-c.spec
+specfile_path: mariadb-connector-c.spec
 usptream_package_name: mariadb-connector-c
 downstream_package_name: mariadb-connector-c
 dist_git_url: https://src.fedoraproject.org/rpms/mariadb-connector-c.git
 jobs:
   - job: copr_build
     trigger: commit
+    branch: throwaway
+    owner: psloboda
+    project: mariadb-connector-c
+    targets: fedora-rawhide-x86_64
     targest: [fedora-stable]
+
+post-upstream-clone:
+  - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/mariadb-connector-c.spec -O mariadb-connector-c.spec"
