@@ -1,0 +1,8 @@
+specfile_path:mariadb-connector-c.spec
+usptream_package_name: mariadb-connector-c
+downstream_package_name: mariadb-connector-c
+dist_git_url: https://src.fedoraproject.org/rpms/mariadb-connector-c.git
+jobs:
+  - job: copr_build
+    trigger: commit
+    targest: [fedora-stable]
