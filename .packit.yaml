@@ -15,10 +15,10 @@ actions:
 osh_diff_scan_after_copr_build: true
 csmock_args: "--cswrap-timeout=180"
 
-srpm_build_deps: "wget"
 
 jobs:
   - job: copr_build
     trigger: commit
     branch: throwaway
     targets: fedora-rawhide
+    srpm_build_deps: "wget"
