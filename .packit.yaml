@@ -1,13 +1,19 @@
-#specfile_path: mariadb-connector-c.spec
 upstream_package_name: mariadb-connector-c
 downstream_package_name: mariadb-connector-c
 actions:
   post-upstream-clone:
+    #spec file
     - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/mariadb-connector-c.spec -O mariadb-connector-c.spec"
-    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/upstream-b10b76e5a2b983d86bd487873608abce8e0d507b.patch -O upstream-b10b76e5a2b983d86bd487873608abce8e0d507b.patch"
-    - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/testsuite.patch -O testsuite.patch"
+    #configs
     - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/client.cnf -O client.cnf"
     - "wget https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/my.cnf.in -O my.cnf.in"
+    #gets rid of the patches that start with upstream
+    - "sed -Ei 's/^(Patch[0-9]*:[[:space:]]*upstream)/#\\1/' mariadb-connector-c.spec"
+    #gets the uncommented patches and downloads them
+    - bash -c 'while read -r line; do fname=$(echo "$line" | sed -E "s/^Patch[0-9]*:[[:space:]]*//"); wget "https://src.fedoraproject.org/rpms/mariadb-connector-c/raw/main/f/$fname"; done < <(grep -E "^[[:space:]]*Patch[0-9]*:[[:space:]]*" mariadb-connector-c.spec | grep -v "^[[:space:]]*#")'
+
+osh_diff_scan_after_copr_build: true
+csmock_args: "--cswrap-timeout=180"
 
 jobs:
   - job: copr_build
@@ -15,4 +21,4 @@ jobs:
     branch: throwaway
     owner: psloboda
     project: mariadb-connector-c
-    targets: fedora-rawhide-x86_64
+    targets: fedora-rawhide
