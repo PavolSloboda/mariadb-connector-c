@@ -1,5 +1,7 @@
 upstream_package_name: mariadb-connector-c
 downstream_package_name: mariadb-connector-c
+srpm_build_deps:
+  - wget
 actions:
   post-upstream-clone:
     #spec file
@@ -16,9 +18,13 @@ osh_diff_scan_after_copr_build: true
 csmock_args: "--cswrap-timeout=180"
 
 jobs:
-  - job: copr_build
-    trigger: commit
-    branch: throwaway
-    owner: psloboda
-    project: mariadb-connector-c
-    targets: fedora-rawhide
+- job: copr_build
+  trigger: pull_request
+  targets:
+    - fedora-rawhide
+- job: copr_build
+  trigger: commit
+  branch: 3.4
+  targets:
+    - fedora-rawhide
+  preserve_project: true
