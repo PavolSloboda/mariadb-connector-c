@@ -1,5 +1,7 @@
 upstream_package_name: mariadb-connector-c
 downstream_package_name: mariadb-connector-c
+srpm_build_deps:
+  - wget
 actions:
   post-upstream-clone:
     #spec file
@@ -21,4 +23,3 @@ jobs:
     trigger: commit
     branch: throwaway
     targets: fedora-rawhide
-    srpm_build_deps: "wget"
