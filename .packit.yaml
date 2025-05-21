@@ -20,6 +20,4 @@ jobs:
   - job: copr_build
     trigger: commit
     branch: throwaway
-    owner: psloboda
-    project: mariadb-connector-c
     targets: fedora-rawhide
