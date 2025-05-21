@@ -19,9 +19,6 @@ csmock_args: "--cswrap-timeout=180"
 jobs:
   - job: copr_build
     trigger: commit
-    notifications:
-      scucessful_build: "The copr build was sucessful with dashboard url: {packit_dashboard_url}"
-      failure_comment: "The copr build failed with logs: {logs_url} and dashboard url: {packit_dashboard_url}"
     branch: throwaway
     owner: psloboda
     project: mariadb-connector-c
