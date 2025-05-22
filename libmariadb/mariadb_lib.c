@@ -393,7 +393,6 @@ void free_rows(MYSQL_DATA *cur)
   if (cur)
   {
     ma_free_root(&cur->alloc,MYF(0));
-    free(cur);
   }
 }
 
@@ -633,7 +632,6 @@ mysql_free_result(MYSQL_RES *result)
       ma_free_root(&result->field_alloc,MYF(0));
     if (result->row)
       free(result->row);
-    free(result);
   }
   return;
 }
@@ -2571,6 +2569,7 @@ void ma_save_session_track_info(void *ptr, enum enum_mariadb_status_info type, .
       MYSQL_LEX_STRING *str;
       char *tmp;
       MARIADB_CONST_STRING *data1= va_arg(ap, MARIADB_CONST_STRING *);
+      MYSQL_LEX_STRING segfault = session_item[0];
 
       if (!(session_item= ma_multi_malloc(0,
                           &session_item, sizeof(LIST),
