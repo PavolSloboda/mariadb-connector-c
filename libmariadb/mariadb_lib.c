@@ -2569,7 +2569,6 @@ void ma_save_session_track_info(void *ptr, enum enum_mariadb_status_info type, .
       MYSQL_LEX_STRING *str;
       char *tmp;
       MARIADB_CONST_STRING *data1= va_arg(ap, MARIADB_CONST_STRING *);
-      MYSQL_LEX_STRING segfault = session_item[0];
 
       if (!(session_item= ma_multi_malloc(0,
                           &session_item, sizeof(LIST),
