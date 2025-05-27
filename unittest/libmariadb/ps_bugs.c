@@ -2678,21 +2678,19 @@ static int test_bug5194(MYSQL *mysql)
   check_mysql_rc(rc, mysql);
 
   my_bind= (MYSQL_BIND*) malloc(MAX_PARAM_COUNT * sizeof(MYSQL_BIND));
+  FAIL_UNLESS(my_bind, "Not enough memory");
   query= (char*) malloc(strlen(query_template) +
                         MAX_PARAM_COUNT * CHARS_PER_PARAM + 1);
+  if(!query)
+    free(my_bind);
+  FAIL_UNLESS(query, "Not enough memory");
   param_str= (char*) malloc(COLUMN_COUNT * CHARS_PER_PARAM);
-
-  if(allocation_failed = !my_bind || !query || !param_str)
+  if(!param_str)
   {
-    if(my_bind)
-      free(my_bind);
-    if(query)
-      free(query);
-    if(my_bind)
-      free(param_str);
+    free(my_bind);
+    free(query);
   }
-
-  FAIL_IF(allocation_failed, "Not enough memory");
+  FAIL_UNLESS(param_str, "Not enough memory");
 
   stmt= mysql_stmt_init(mysql);
 
@@ -5175,6 +5173,7 @@ static int test_maxparam(MYSQL *mysql)
   MYSQL_BIND* bind;
 
   bind = calloc(65535, sizeof *bind);
+  FAIL_UNLESS(bind, "Not enough memory");
 
   rc= mysql_query(mysql, "DROP TABLE IF EXISTS t1");
   if (rc)
@@ -5187,6 +5186,9 @@ static int test_maxparam(MYSQL *mysql)
   check_mysql_rc(rc, mysql);
 
   buffer= calloc(1, mem);
+  if(!buffer)
+    free(bind);
+  FAIL_UNLESS(bind, "Not enough memory");
   strcpy(buffer, query);
   for (i=0; i < 65534.; i++)
     strcat(buffer, ",(?)");

@@ -1541,7 +1541,7 @@ static int test_conc327(MYSQL *unused __attribute__((unused)))
 
   fp1= fopen(cnf_file1, "w");
   fp2= fopen(cnf_file2, "w");
-  if(failed_opening_files = !fp1 || !fp2)
+  if((failed_opening_files = !fp1 || !fp2))
   {
     if(fp1)
     {
@@ -1578,7 +1578,7 @@ static int test_conc327(MYSQL *unused __attribute__((unused)))
   snprintf(cnf_file1, FN_REFLEN, "%s%cmy.cnf", env, FN_LIBCHAR);
   fp1= fopen(cnf_file1, "w");
   fp2= fopen(cnf_file2, "w");
-  if(failed_opening_files = !fp1 || !fp2)
+  if((failed_opening_files = !fp1 || !fp2))
   {
     if(fp1)
     {
