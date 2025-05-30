@@ -23,6 +23,6 @@ jobs:
     targets: fedora-rawhide
   - job: copr_build
     trigger: commit
-    branch: "3.4"
+    branch: "main_after_potential_pull_request"
     targets: fedora-rawhide
     preserve_project: true
