@@ -23,6 +23,6 @@ jobs:
     targets: fedora-rawhide
   - job: copr_build
     trigger: commit
-    branch: "3.4"
+    branch: test_branch_to_merge_into
     targets: fedora-rawhide
     preserve_project: true
