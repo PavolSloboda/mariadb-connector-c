@@ -2624,7 +2624,6 @@ static int test_bug5194(MYSQL *mysql)
   const int CHARS_PER_PARAM= 5; /* space needed to place ", ?" in the query */
   const int uint16_max= 65535;
   int nrows, i;
-  my_bool allocation_failed;
 
   SKIP_MAXSCALE;
 
